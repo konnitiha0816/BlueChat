@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BlueChat</title>
+    <style>
+        body { font-family: sans-serif; background: #e3f2fd; text-align: center; margin: 0; padding: 20px; }
+        .card { background: white; max-width: 600px; margin: 0 auto; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        input { width: 80%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; }
+        button { padding: 10px 20px; background: #1976d2; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+        .hidden { display: none; }
+        video { width: 100%; border-radius: 10px; background: #000; margin-top: 10px; transform: scaleX(-1); }
+        #video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h1>🔵 BlueChat</h1>
+        
+        <div id="step-login">
+            <h2>🔒 ログイン</h2>
+            <input type="text" id="login-id" placeholder="ID (tuuwa)">
+            <input type="password" id="login-pw" placeholder="PW (room)">
+            <button onclick="checkAuth()">ログイン</button>
+        </div>
+
+        <div id="step-room" class="hidden">
+            <h2>📞 通話ID作成</h2>
+            <input type="text" id="room-id" placeholder="IDを入力（6文字以上）">
+            <button onclick="goToSetup()">次へ</button>
+        </div>
+
+        <div id="step-setup" class="hidden">
+            <h2>👤 準備中</h2>
+            <input type="text" id="user-name" placeholder="あなたの名前">
+            <p id="wait-msg" class="hidden" style="color:green; font-weight:bold;">⏳ 承認待ちです...</p>
+            <button id="btn-req" onclick="sendRequest()">入室リクエスト</button>
+        </div>
+
+        <div id="step-call" class="hidden">
+            <h2 id="room-display"></h2>
+            <div id="admin-panel" class="hidden" style="background:#fff3e0; padding:10px; margin-bottom:10px;">
+                <strong>👑 主催者メニュー</strong>
+                <div id="req-list"></div>
+            </div>
+            <div id="video-grid">
+                <video id="localVideo" autoplay playsinline muted></video>
+            </div>
+        </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js"></script>
+</body>
+</html>
